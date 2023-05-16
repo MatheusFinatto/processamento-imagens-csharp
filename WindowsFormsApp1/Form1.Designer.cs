@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea27 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend27 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series27 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea28 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend28 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series28 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnSub = new System.Windows.Forms.Button();
             this.btnMult = new System.Windows.Forms.Button();
@@ -44,11 +44,11 @@
             this.btnAnd = new System.Windows.Forms.Button();
             this.btnNot = new System.Windows.Forms.Button();
             this.btnOr = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.txAdd = new System.Windows.Forms.TextBox();
+            this.txSub = new System.Windows.Forms.TextBox();
+            this.txMult = new System.Windows.Forms.TextBox();
+            this.txDiv = new System.Windows.Forms.TextBox();
+            this.txBlend = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
@@ -64,7 +64,7 @@
             this.btnRealceSuavConservativa = new System.Windows.Forms.Button();
             this.btnRealceOrdem = new System.Windows.Forms.Button();
             this.btnRealceMediana = new System.Windows.Forms.Button();
-            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.txOrdem = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.SDBI = new System.Windows.Forms.Button();
             this.negativo = new System.Windows.Forms.Button();
@@ -86,6 +86,7 @@
             this.btnAdd.TabIndex = 0;
             this.btnAdd.Text = "Adição";
             this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // btnSub
             // 
@@ -95,6 +96,7 @@
             this.btnSub.TabIndex = 1;
             this.btnSub.Text = "Subtração";
             this.btnSub.UseVisualStyleBackColor = true;
+            this.btnSub.Click += new System.EventHandler(this.btnSub_Click);
             // 
             // btnMult
             // 
@@ -104,6 +106,7 @@
             this.btnMult.TabIndex = 2;
             this.btnMult.Text = "Multiplicação";
             this.btnMult.UseVisualStyleBackColor = true;
+            this.btnMult.Click += new System.EventHandler(this.btnMult_Click);
             // 
             // btnDiv
             // 
@@ -113,6 +116,7 @@
             this.btnDiv.TabIndex = 3;
             this.btnDiv.Text = "Divisão";
             this.btnDiv.UseVisualStyleBackColor = true;
+            this.btnDiv.Click += new System.EventHandler(this.btnDiv_Click);
             // 
             // btnBlend
             // 
@@ -122,6 +126,7 @@
             this.btnBlend.TabIndex = 4;
             this.btnBlend.Text = "Blending";
             this.btnBlend.UseVisualStyleBackColor = true;
+            this.btnBlend.Click += new System.EventHandler(this.btnBlend_Click);
             // 
             // btnMed
             // 
@@ -131,6 +136,7 @@
             this.btnMed.TabIndex = 5;
             this.btnMed.Text = "Media";
             this.btnMed.UseVisualStyleBackColor = true;
+            this.btnMed.Click += new System.EventHandler(this.btnMed_Click);
             // 
             // btnXor
             // 
@@ -140,6 +146,7 @@
             this.btnXor.TabIndex = 6;
             this.btnXor.Text = "XOR";
             this.btnXor.UseVisualStyleBackColor = true;
+            this.btnXor.Click += new System.EventHandler(this.btnXor_Click);
             // 
             // btnAnd
             // 
@@ -149,6 +156,7 @@
             this.btnAnd.TabIndex = 7;
             this.btnAnd.Text = "AND";
             this.btnAnd.UseVisualStyleBackColor = true;
+            this.btnAnd.Click += new System.EventHandler(this.btnAnd_Click);
             // 
             // btnNot
             // 
@@ -158,6 +166,7 @@
             this.btnNot.TabIndex = 8;
             this.btnNot.Text = "NOT";
             this.btnNot.UseVisualStyleBackColor = true;
+            this.btnNot.Click += new System.EventHandler(this.btnNot_Click);
             // 
             // btnOr
             // 
@@ -167,41 +176,42 @@
             this.btnOr.TabIndex = 9;
             this.btnOr.Text = "OR";
             this.btnOr.UseVisualStyleBackColor = true;
+            this.btnOr.Click += new System.EventHandler(this.btnOr_Click);
             // 
-            // textBox1
+            // txAdd
             // 
-            this.textBox1.Location = new System.Drawing.Point(574, 25);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(36, 20);
-            this.textBox1.TabIndex = 10;
+            this.txAdd.Location = new System.Drawing.Point(574, 25);
+            this.txAdd.Name = "txAdd";
+            this.txAdd.Size = new System.Drawing.Size(36, 20);
+            this.txAdd.TabIndex = 10;
             // 
-            // textBox2
+            // txSub
             // 
-            this.textBox2.Location = new System.Drawing.Point(574, 55);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(36, 20);
-            this.textBox2.TabIndex = 11;
+            this.txSub.Location = new System.Drawing.Point(574, 55);
+            this.txSub.Name = "txSub";
+            this.txSub.Size = new System.Drawing.Size(36, 20);
+            this.txSub.TabIndex = 11;
             // 
-            // textBox3
+            // txMult
             // 
-            this.textBox3.Location = new System.Drawing.Point(574, 84);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(36, 20);
-            this.textBox3.TabIndex = 12;
+            this.txMult.Location = new System.Drawing.Point(574, 84);
+            this.txMult.Name = "txMult";
+            this.txMult.Size = new System.Drawing.Size(36, 20);
+            this.txMult.TabIndex = 12;
             // 
-            // textBox4
+            // txDiv
             // 
-            this.textBox4.Location = new System.Drawing.Point(574, 113);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(36, 20);
-            this.textBox4.TabIndex = 13;
+            this.txDiv.Location = new System.Drawing.Point(574, 113);
+            this.txDiv.Name = "txDiv";
+            this.txDiv.Size = new System.Drawing.Size(36, 20);
+            this.txDiv.TabIndex = 13;
             // 
-            // textBox5
+            // txBlend
             // 
-            this.textBox5.Location = new System.Drawing.Point(574, 141);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(36, 20);
-            this.textBox5.TabIndex = 14;
+            this.txBlend.Location = new System.Drawing.Point(574, 141);
+            this.txBlend.Name = "txBlend";
+            this.txBlend.Size = new System.Drawing.Size(36, 20);
+            this.txBlend.TabIndex = 14;
             // 
             // pictureBox1
             // 
@@ -235,6 +245,7 @@
             this.LoadImgA.TabIndex = 18;
             this.LoadImgA.Text = "Carregar imagem A";
             this.LoadImgA.UseVisualStyleBackColor = true;
+            this.LoadImgA.Click += new System.EventHandler(this.LoadImgA_Click);
             // 
             // LoadImgB
             // 
@@ -244,6 +255,7 @@
             this.LoadImgB.TabIndex = 19;
             this.LoadImgB.Text = "Carregar Imagem B";
             this.LoadImgB.UseVisualStyleBackColor = true;
+            this.LoadImgB.Click += new System.EventHandler(this.LoadImgB_Click);
             // 
             // SalvarImagem
             // 
@@ -253,6 +265,7 @@
             this.SalvarImagem.TabIndex = 20;
             this.SalvarImagem.Text = "Salvar imagem";
             this.SalvarImagem.UseVisualStyleBackColor = true;
+            this.SalvarImagem.Click += new System.EventHandler(this.SalvarImagem_Click);
             // 
             // RGBToBit
             // 
@@ -262,6 +275,7 @@
             this.RGBToBit.TabIndex = 21;
             this.RGBToBit.Text = "RGB --> 1bit ";
             this.RGBToBit.UseVisualStyleBackColor = true;
+            this.RGBToBit.Click += new System.EventHandler(this.RGBToBit_Click);
             // 
             // RGBTo8Bit
             // 
@@ -271,6 +285,7 @@
             this.RGBTo8Bit.TabIndex = 22;
             this.RGBTo8Bit.Text = "RGB --> 8bit ";
             this.RGBTo8Bit.UseVisualStyleBackColor = true;
+            this.RGBTo8Bit.Click += new System.EventHandler(this.RGBTo8Bit_Click);
             // 
             // Realces
             // 
@@ -289,6 +304,7 @@
             this.btnRealceMedia.TabIndex = 27;
             this.btnRealceMedia.Text = "MÉDIA";
             this.btnRealceMedia.UseVisualStyleBackColor = true;
+            this.btnRealceMedia.Click += new System.EventHandler(this.btnRealceMedia_Click);
             // 
             // btnRealceMin
             // 
@@ -298,6 +314,7 @@
             this.btnRealceMin.TabIndex = 26;
             this.btnRealceMin.Text = "MIN";
             this.btnRealceMin.UseVisualStyleBackColor = true;
+            this.btnRealceMin.Click += new System.EventHandler(this.btnRealceMin_Click);
             // 
             // btnRealceMax
             // 
@@ -307,6 +324,7 @@
             this.btnRealceMax.TabIndex = 25;
             this.btnRealceMax.Text = "MÁX";
             this.btnRealceMax.UseVisualStyleBackColor = true;
+            this.btnRealceMax.Click += new System.EventHandler(this.btnRealceMax_Click);
             // 
             // btnRealceSuavConservativa
             // 
@@ -316,6 +334,7 @@
             this.btnRealceSuavConservativa.TabIndex = 30;
             this.btnRealceSuavConservativa.Text = "SUAV. CONSERVATIVA";
             this.btnRealceSuavConservativa.UseVisualStyleBackColor = true;
+            this.btnRealceSuavConservativa.Click += new System.EventHandler(this.btnRealceSuavConservativa_Click);
             // 
             // btnRealceOrdem
             // 
@@ -325,6 +344,7 @@
             this.btnRealceOrdem.TabIndex = 29;
             this.btnRealceOrdem.Text = "ORDEM";
             this.btnRealceOrdem.UseVisualStyleBackColor = true;
+            this.btnRealceOrdem.Click += new System.EventHandler(this.btnRealceOrdem_Click);
             // 
             // btnRealceMediana
             // 
@@ -334,13 +354,14 @@
             this.btnRealceMediana.TabIndex = 28;
             this.btnRealceMediana.Text = "MEDIANA";
             this.btnRealceMediana.UseVisualStyleBackColor = true;
+            this.btnRealceMediana.Click += new System.EventHandler(this.btnRealceMediana_Click);
             // 
-            // textBox6
+            // txOrdem
             // 
-            this.textBox6.Location = new System.Drawing.Point(359, 315);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(54, 20);
-            this.textBox6.TabIndex = 31;
+            this.txOrdem.Location = new System.Drawing.Point(359, 315);
+            this.txOrdem.Name = "txOrdem";
+            this.txOrdem.Size = new System.Drawing.Size(54, 20);
+            this.txOrdem.TabIndex = 31;
             // 
             // label2
             // 
@@ -359,6 +380,7 @@
             this.SDBI.TabIndex = 33;
             this.SDBI.Text = "Standart Deviation Based Image Stretching";
             this.SDBI.UseVisualStyleBackColor = true;
+            this.SDBI.Click += new System.EventHandler(this.SDBI_Click);
             // 
             // negativo
             // 
@@ -368,35 +390,36 @@
             this.negativo.TabIndex = 34;
             this.negativo.Text = "Negativo";
             this.negativo.UseVisualStyleBackColor = true;
+            this.negativo.Click += new System.EventHandler(this.negativo_Click);
             // 
             // chart1
             // 
-            chartArea3.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea3);
-            legend3.Name = "Legend1";
-            this.chart1.Legends.Add(legend3);
+            chartArea27.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea27);
+            legend27.Name = "Legend1";
+            this.chart1.Legends.Add(legend27);
             this.chart1.Location = new System.Drawing.Point(34, 403);
             this.chart1.Name = "chart1";
-            series3.ChartArea = "ChartArea1";
-            series3.Legend = "Legend1";
-            series3.Name = "Series1";
-            this.chart1.Series.Add(series3);
+            series27.ChartArea = "ChartArea1";
+            series27.Legend = "Legend1";
+            series27.Name = "Series1";
+            this.chart1.Series.Add(series27);
             this.chart1.Size = new System.Drawing.Size(319, 196);
             this.chart1.TabIndex = 35;
             this.chart1.Text = "chart1";
             // 
             // chart2
             // 
-            chartArea4.Name = "ChartArea1";
-            this.chart2.ChartAreas.Add(chartArea4);
-            legend4.Name = "Legend1";
-            this.chart2.Legends.Add(legend4);
+            chartArea28.Name = "ChartArea1";
+            this.chart2.ChartAreas.Add(chartArea28);
+            legend28.Name = "Legend1";
+            this.chart2.Legends.Add(legend28);
             this.chart2.Location = new System.Drawing.Point(591, 403);
             this.chart2.Name = "chart2";
-            series4.ChartArea = "ChartArea1";
-            series4.Legend = "Legend1";
-            series4.Name = "Series1";
-            this.chart2.Series.Add(series4);
+            series28.ChartArea = "ChartArea1";
+            series28.Legend = "Legend1";
+            series28.Name = "Series1";
+            this.chart2.Series.Add(series28);
             this.chart2.Size = new System.Drawing.Size(319, 196);
             this.chart2.TabIndex = 36;
             this.chart2.Text = "chart2";
@@ -409,6 +432,7 @@
             this.equalizarHistograma.TabIndex = 37;
             this.equalizarHistograma.Text = "Equalizar histograma";
             this.equalizarHistograma.UseVisualStyleBackColor = true;
+            this.equalizarHistograma.Click += new System.EventHandler(this.equalizarHistograma_Click);
             // 
             // Form1
             // 
@@ -421,7 +445,7 @@
             this.Controls.Add(this.negativo);
             this.Controls.Add(this.SDBI);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.textBox6);
+            this.Controls.Add(this.txOrdem);
             this.Controls.Add(this.btnRealceSuavConservativa);
             this.Controls.Add(this.btnRealceOrdem);
             this.Controls.Add(this.btnRealceMediana);
@@ -437,11 +461,11 @@
             this.Controls.Add(this.pictureBox3);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.textBox5);
-            this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txBlend);
+            this.Controls.Add(this.txDiv);
+            this.Controls.Add(this.txMult);
+            this.Controls.Add(this.txSub);
+            this.Controls.Add(this.txAdd);
             this.Controls.Add(this.btnOr);
             this.Controls.Add(this.btnNot);
             this.Controls.Add(this.btnAnd);
@@ -476,11 +500,11 @@
         private System.Windows.Forms.Button btnAnd;
         private System.Windows.Forms.Button btnNot;
         private System.Windows.Forms.Button btnOr;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox txAdd;
+        private System.Windows.Forms.TextBox txSub;
+        private System.Windows.Forms.TextBox txMult;
+        private System.Windows.Forms.TextBox txDiv;
+        private System.Windows.Forms.TextBox txBlend;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.PictureBox pictureBox3;
@@ -496,7 +520,7 @@
         private System.Windows.Forms.Button btnRealceSuavConservativa;
         private System.Windows.Forms.Button btnRealceOrdem;
         private System.Windows.Forms.Button btnRealceMediana;
-        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.TextBox txOrdem;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button SDBI;
         private System.Windows.Forms.Button negativo;
