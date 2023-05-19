@@ -636,7 +636,67 @@ namespace WindowsFormsApp1
 
         private void btnMed_Click(object sender, EventArgs e)
         {
+            Bitmap image1 = (Bitmap)pictureBox1.Image;
 
+            if (image1 == null)
+            {
+                MessageBox.Show("Selecione uma imagem para a imagem 1.");
+                return;
+            }
+
+            Bitmap image3 = new Bitmap(image1.Width, image1.Height);
+
+            for (int i = 1; i < image1.Width - 1; i++)
+            {
+                for (int j = 1; j < image1.Height - 1; j++)
+                {
+
+                    if (image1 != null)
+                    {
+
+                        //Greyscale
+                        int grey = (vImg1R[i, j] + vImg1G[i, j] + vImg1B[i, j]) / 3;
+
+                        Color p = Color.FromArgb(grey, grey, grey);
+
+                        vImg1R[i, j] = (byte)grey;
+                        vImg1G[i, j] = (byte)grey;
+                        vImg1B[i, j] = (byte)grey;
+
+                        image1.SetPixel(i, j, p);
+                    }
+
+                    byte[] mask = new byte[9];
+                    for (int w = 0; w < mask.Length; w++)
+                        mask[w] = 1;
+
+                    mask[0] = (byte)(mask[0] * vImg1Gray[i - 1, j - 1]);
+                    mask[1] = (byte)(mask[1] * vImg1Gray[i - 1, j]);
+                    mask[2] = (byte)(mask[2] * vImg1Gray[i - 1, j + 1]);
+
+                    mask[3] = (byte)(mask[3] * vImg1Gray[i, j - 1]);
+                    mask[4] = (byte)(mask[4] * vImg1Gray[i, j]);
+                    mask[5] = (byte)(mask[5] * vImg1Gray[i, j + 1]);
+
+                    mask[6] = (byte)(mask[6] * vImg1Gray[i + 1, j - 1]);
+                    mask[7] = (byte)(mask[7] * vImg1Gray[i + 1, j]);
+                    mask[8] = (byte)(mask[8] * vImg1Gray[i + 1, j + 1]);
+
+                    int acc = 0;
+                    for (int k = 0; k < mask.Length; k++)
+                    {
+                        acc += mask[k];
+                    }
+
+                    byte mean = (byte)(acc / 9);
+
+                    Color p2 = Color.FromArgb(mean, mean, mean);
+
+                    image3.SetPixel(i, j, p2);
+                }
+            }
+
+            pictureBox3.Image = image3;
         }
 
         private void btnAnd_Click(object sender, EventArgs e)
@@ -777,7 +837,36 @@ namespace WindowsFormsApp1
 
         private void btnXor_Click(object sender, EventArgs e)
         {
+            Bitmap andImage = (Bitmap)pictureBox1.Image;
 
+            if (checkExistance("needed") == false) { return; }
+
+            if (checkDimensions(img1Origin, img2Origin) == false) { return; }
+
+            int x, y;
+
+            for (x = 0; x < andImage.Width; x++)
+            {
+                for (y = 0; y < andImage.Height; y++)
+                {
+
+                    Color newColor = new Color();
+
+                    int newR = vImg1R[x, y] ^ vImg2R[x, y];
+
+                    int newG = vImg1G[x, y] ^ vImg2G[x, y];
+
+                    int newB = vImg1B[x, y] ^ vImg2B[x, y];
+
+                    int newA = vImg1A[x, y] ^ vImg2A[x, y];
+
+                    newColor = Color.FromArgb((int)newA, (int)newR, (int)newG, (int)newB);
+
+                    andImage.SetPixel(x, y, newColor);
+                }
+            }
+
+            pictureBox3.Image = andImage;
         }
         private void SalvarImagem_Click(object sender, EventArgs e)
         {
@@ -845,7 +934,7 @@ namespace WindowsFormsApp1
             Bitmap image1 = (Bitmap)pictureBox1.Image;
 
 
-            if (image1 == null )
+            if (image1 == null)
             {
                 MessageBox.Show("Selecione uma imagem.");
                 return;
@@ -856,10 +945,15 @@ namespace WindowsFormsApp1
             {
                 for (int j = 0; j < image1.Height; j++)
                 {
-
+                    if (image1 != null)
+                    {
 
                         //Greyscale
                         int grey = (vImg1R[i, j] + vImg1G[i, j] + vImg1B[i, j]) / 3;
+
+                        //1bit
+                        if (grey >= 128) grey = 255;
+                        else if (grey < 128) grey = 0;
 
                         Color p = Color.FromArgb(grey, grey, grey);
 
@@ -868,9 +962,9 @@ namespace WindowsFormsApp1
                         vImg1B[i, j] = (byte)grey;
 
                         image1.SetPixel(i, j, p);
-                    
+                    }
 
-               
+                    
                 }
             }
 
@@ -997,6 +1091,66 @@ namespace WindowsFormsApp1
         private void btnRealceMedia_Click(object sender, EventArgs e)
         {
             Bitmap image1 = (Bitmap)pictureBox1.Image;
+
+            if (image1 == null)
+            {
+                MessageBox.Show("Selecione uma imagem para a imagem 1.");
+                return;
+            }
+
+            Bitmap image3 = new Bitmap(image1.Width, image1.Height);
+
+            for (int i = 1; i < image1.Width - 1; i++)
+            {
+                for (int j = 1; j < image1.Height - 1; j++)
+                {
+
+                    if (image1 != null)
+                    {
+
+                        //Greyscale
+                        int grey = (vImg1R[i, j] + vImg1G[i, j] + vImg1B[i, j]) / 3;
+
+                        Color p = Color.FromArgb(grey, grey, grey);
+
+                        vImg1R[i, j] = (byte)grey;
+                        vImg1G[i, j] = (byte)grey;
+                        vImg1B[i, j] = (byte)grey;
+
+                        image1.SetPixel(i, j, p);
+                    }
+
+                    byte[] mask = new byte[9];
+                    for (int w = 0; w < mask.Length; w++)
+                        mask[w] = 1;
+
+                    mask[0] = (byte)(mask[0] * vImg1Gray[i - 1, j - 1]);
+                    mask[1] = (byte)(mask[1] * vImg1Gray[i - 1, j]);
+                    mask[2] = (byte)(mask[2] * vImg1Gray[i - 1, j + 1]);
+
+                    mask[3] = (byte)(mask[3] * vImg1Gray[i, j - 1]);
+                    mask[4] = (byte)(mask[4] * vImg1Gray[i, j]);
+                    mask[5] = (byte)(mask[5] * vImg1Gray[i, j + 1]);
+
+                    mask[6] = (byte)(mask[6] * vImg1Gray[i + 1, j - 1]);
+                    mask[7] = (byte)(mask[7] * vImg1Gray[i + 1, j]);
+                    mask[8] = (byte)(mask[8] * vImg1Gray[i + 1, j + 1]);
+
+                    int acc = 0;
+                    for (int k = 0; k < mask.Length; k++)
+                    {
+                        acc += mask[k];
+                    }
+
+                    byte mean = (byte)(acc / 9);
+
+                    Color p2 = Color.FromArgb(mean, mean, mean);
+
+                    image3.SetPixel(i, j, p2);
+                }
+            }
+
+            pictureBox3.Image = image3;
         }
 
         private void btnRealceMediana_Click(object sender, EventArgs e)
@@ -1049,6 +1203,81 @@ namespace WindowsFormsApp1
         }
 
         private void equalizarHistograma_Click(object sender, EventArgs e)
+        {
+            Bitmap image1 = (Bitmap)pictureBox1.Image;
+
+            if (image1 == null)
+            {
+                MessageBox.Show("Selecione uma imagem para a imagem 1.");
+                return;
+            }
+
+            Bitmap image3 = new Bitmap(image1.Width, image1.Height);
+
+            int width = image1.Width;
+            int height = image1.Height;
+
+            int[] pixelIntensityRate = new int[256];
+
+            for (int i = 0; i < width; i++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    //A imagem deve ser em greyscale, portanto, qualquer pixel vale
+                    int pixelVal = image1.GetPixel(i, y).R;
+                    pixelIntensityRate[pixelVal]++;
+                }
+            }
+
+            double[] CFD = new double[256];
+            int pixelsCount = width * width;
+            CFD[0] = pixelIntensityRate[0] / (double)pixelsCount;
+            for (int i = 1; i < 256; i++)
+            {
+                CFD[i] = CFD[i - 1] + pixelIntensityRate[i] / (double)pixelsCount;
+            }
+
+
+            byte[,] finalImg = new byte[width, height];
+
+            int[] finalPixelRate = new int[256];
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    int pixel = vImg1Gray[i, j];
+                    finalImg[i, j] = (byte)Math.Round(CFD[pixel] * 255.0);
+                    finalPixelRate[finalImg[i, j]]++;
+                }
+            }
+
+            histDefault.Series.Clear();
+            histDefault.Series.Add("Histograma A");
+            histDefault.Series["Histograma A"].ChartType = SeriesChartType.Column;
+            histDefault.Series["Histograma A"].Points.DataBindY(pixelIntensityRate);
+            histDefault.ChartAreas[0].AxisY.Maximum = pixelIntensityRate.Max() + 10;
+
+            histNormalizado.Series.Clear();
+            histNormalizado.Series.Add("Resultado");
+            histNormalizado.Series["Resultado"].ChartType = SeriesChartType.Column;
+            histNormalizado.Series["Resultado"].Points.DataBindY(finalPixelRate);
+            histNormalizado.ChartAreas[0].AxisY.Maximum = finalPixelRate.Max() + 10;
+
+            for (int i = 0; i < image3.Width; i++)
+            {
+                for (int j = 0; j < image3.Height; j++)
+                {
+                    byte color = finalImg[i, j];
+                    Color p = Color.FromArgb(255, color, color, color);
+
+                    image3.SetPixel(i, j, p);
+                }
+            }
+
+            pictureBox3.Image = image3;
+        }
+
+        private void btnToDouble_Click(object sender, EventArgs e)
         {
 
         }
