@@ -636,67 +636,48 @@ namespace WindowsFormsApp1
 
         private void btnMed_Click(object sender, EventArgs e)
         {
-            Bitmap image1 = (Bitmap)pictureBox1.Image;
+            Bitmap resultImage = new Bitmap(img1.Width, img1.Height);
 
-            if (image1 == null)
+            bool isGrayscale = IsGrayscaleImage(img1) && IsGrayscaleImage(img2);
+
+            for (int i = 0; i < img1.Width; i++)
             {
-                MessageBox.Show("Selecione uma imagem para a imagem 1.");
-                return;
-            }
-
-            Bitmap image3 = new Bitmap(image1.Width, image1.Height);
-
-            for (int i = 1; i < image1.Width - 1; i++)
-            {
-                for (int j = 1; j < image1.Height - 1; j++)
+                for (int j = 0; j < img1.Height; j++)
                 {
+                    int pixelR, pixelG, pixelB, pixelA;
 
-                    if (image1 != null)
+                    if (!checkExistance("needed"))
+                        return;
+
+                    if (!checkDimensions(img1, img2))
+                        return;
+
+                    // Calculate the average of pixel values from image 1 and image 2
+                    if (isGrayscale)
                     {
-
-                        //Greyscale
-                        int grey = (vImg1R[i, j] + vImg1G[i, j] + vImg1B[i, j]) / 3;
-
-                        Color p = Color.FromArgb(grey, grey, grey);
-
-                        vImg1R[i, j] = (byte)grey;
-                        vImg1G[i, j] = (byte)grey;
-                        vImg1B[i, j] = (byte)grey;
-
-                        image1.SetPixel(i, j, p);
+                        pixelR = (vImg1Gray[i, j] + vImg2Gray[i, j]) / 2;
+                        pixelG = pixelR;
+                        pixelB = pixelR;
+                        pixelA = 255;
+                    }
+                    else
+                    {
+                        pixelR = (vImg1R[i, j] + vImg2R[i, j]) / 2;
+                        pixelG = (vImg1G[i, j] + vImg2G[i, j]) / 2;
+                        pixelB = (vImg1B[i, j] + vImg2B[i, j]) / 2;
                     }
 
-                    byte[] mask = new byte[9];
-                    for (int w = 0; w < mask.Length; w++)
-                        mask[w] = 1;
+                    // Cap values within the valid range (0-255)
+                    pixelR = Math.Max(0, Math.Min(255, pixelR));
+                    pixelG = Math.Max(0, Math.Min(255, pixelG));
+                    pixelB = Math.Max(0, Math.Min(255, pixelB));
 
-                    mask[0] = (byte)(mask[0] * vImg1Gray[i - 1, j - 1]);
-                    mask[1] = (byte)(mask[1] * vImg1Gray[i - 1, j]);
-                    mask[2] = (byte)(mask[2] * vImg1Gray[i - 1, j + 1]);
-
-                    mask[3] = (byte)(mask[3] * vImg1Gray[i, j - 1]);
-                    mask[4] = (byte)(mask[4] * vImg1Gray[i, j]);
-                    mask[5] = (byte)(mask[5] * vImg1Gray[i, j + 1]);
-
-                    mask[6] = (byte)(mask[6] * vImg1Gray[i + 1, j - 1]);
-                    mask[7] = (byte)(mask[7] * vImg1Gray[i + 1, j]);
-                    mask[8] = (byte)(mask[8] * vImg1Gray[i + 1, j + 1]);
-
-                    int acc = 0;
-                    for (int k = 0; k < mask.Length; k++)
-                    {
-                        acc += mask[k];
-                    }
-
-                    byte mean = (byte)(acc / 9);
-
-                    Color p2 = Color.FromArgb(mean, mean, mean);
-
-                    image3.SetPixel(i, j, p2);
+                    Color pixelColor = Color.FromArgb(pixelR, pixelG, pixelB);
+                    resultImage.SetPixel(i, j, pixelColor);
                 }
             }
 
-            pictureBox3.Image = image3;
+            pictureBox3.Image = resultImage;
         }
 
         private void btnAnd_Click(object sender, EventArgs e)
@@ -931,6 +912,9 @@ namespace WindowsFormsApp1
 
         private void RGBTo8Bit_Click(object sender, EventArgs e)
         {
+
+
+
             Bitmap originalImage = (Bitmap)pictureBox1.Image;
 
                 if (originalImage == null)
@@ -943,11 +927,9 @@ namespace WindowsFormsApp1
                 {
                     for (int j = 0; j < originalImage.Height; j++)
                     {
-                        // Calculate the gray value using a weighted average
-                        int grayValue = CalculateGrayValue(vImg1R[i, j], vImg1G[i, j], vImg1B[i, j]);
-
-                        // Convert to 8-bit grayscale
-                        grayValue = grayValue / 257;
+                    // Calculate the gray value using a weighted average
+                    int grayValue = (int)(0.299 * vImg1R[i, j] + 0.587 * vImg1G[i, j] + 0.114 * vImg1B[i, j]);
+                        
 
                         // Create a gray pixel
                         Color grayPixel = Color.FromArgb(grayValue, grayValue, grayValue);
@@ -965,11 +947,10 @@ namespace WindowsFormsApp1
                 pictureBox3.Image = originalImage;
             }
 
-            // Calculates the gray value using a weighted average
-            private int CalculateGrayValue(int r, int g, int b)
-            {
-                return (int)(0.299 * r + 0.587 * g + 0.114 * b);
-            }
+
+
+        private void btnToDouble_Click(object sender, EventArgs e)
+        {
 
         }
 
@@ -1154,55 +1135,6 @@ namespace WindowsFormsApp1
             pictureBox3.Image = image3;
         }
 
-        private void btnRealceMediana_Click(object sender, EventArgs e)
-        {
-            Bitmap image1 = (Bitmap)pictureBox1.Image;
-        }
-
-        private void btnRealceOrdem_Click(object sender, EventArgs e)
-        {
-            Bitmap image1 = (Bitmap)pictureBox1.Image;
-        }
-
-        private void btnRealceSuavConservativa_Click(object sender, EventArgs e)
-        {
-            Bitmap image1 = (Bitmap)pictureBox1.Image;
-        }
-
-        private void SDBI_Click(object sender, EventArgs e)
-        {
-            Bitmap image1 = (Bitmap)pictureBox1.Image;
-        }
-
-        private void negativo_Click(object sender, EventArgs e)
-        {
-            Bitmap image1 = (Bitmap)pictureBox1.Image;
-
-            if (image1 == null)
-            {
-                MessageBox.Show("Selecione uma imagem no primeiro campo");
-                return;
-            }
-
-            Bitmap image3 = new Bitmap(image1.Width, image1.Height);
-
-            for (int i = 0; i < image1.Width; i++)
-            {
-                for (int j = 0; j < image1.Height; j++)
-                {
-                    Color cor1 = ((Bitmap)image1).GetPixel(i, j);
-                    int novoR = 255 - Math.Min(255, Math.Max(0, cor1.R + cor1.R));
-                    int novoG = 255 - Math.Min(255, Math.Max(0, cor1.G + cor1.G));
-                    int novoB = 255 - Math.Min(255, Math.Max(0, cor1.B + cor1.B));
-
-                    Color novaCor = Color.FromArgb(novoR, novoG, novoB);
-                    image3.SetPixel(i, j, novaCor);
-                }
-            }
-
-            pictureBox3.Image = image3;
-        }
-
         private void equalizarHistograma_Click(object sender, EventArgs e)
         {
             Bitmap image1 = (Bitmap)pictureBox1.Image;
@@ -1277,10 +1209,12 @@ namespace WindowsFormsApp1
 
             pictureBox3.Image = image3;
         }
-
-        private void btnToDouble_Click(object sender, EventArgs e)
-        {
-
-        }
     }
+
+
+
+
+
+
+    
 }
