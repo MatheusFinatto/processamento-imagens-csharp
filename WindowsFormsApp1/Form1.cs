@@ -119,7 +119,7 @@ namespace WindowsFormsApp1
             // Se um arquivo foi localizado com sucesso...
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                // Armnazena o path do arquivo de imagem
+                // Armazena o path do arquivo de imagem
                 filePath = openFileDialog1.FileName;
 
 
@@ -931,44 +931,45 @@ namespace WindowsFormsApp1
 
         private void RGBTo8Bit_Click(object sender, EventArgs e)
         {
-            Bitmap image1 = (Bitmap)pictureBox1.Image;
+            Bitmap originalImage = (Bitmap)pictureBox1.Image;
 
-
-            if (image1 == null)
-            {
-                MessageBox.Show("Selecione uma imagem.");
-                return;
-            }
-
-
-            for (int i = 0; i < image1.Width; i++)
-            {
-                for (int j = 0; j < image1.Height; j++)
+                if (originalImage == null)
                 {
-                    if (image1 != null)
-                    {
-
-                        //Greyscale
-                        int grey = (vImg1R[i, j] + vImg1G[i, j] + vImg1B[i, j]) / 3;
-
-                        //1bit
-                        if (grey >= 128) grey = 255;
-                        else if (grey < 128) grey = 0;
-
-                        Color p = Color.FromArgb(grey, grey, grey);
-
-                        vImg1R[i, j] = (byte)grey;
-                        vImg1G[i, j] = (byte)grey;
-                        vImg1B[i, j] = (byte)grey;
-
-                        image1.SetPixel(i, j, p);
-                    }
-
-                    
+                    MessageBox.Show("Selecione uma imagem.");
+                    return;
                 }
+
+                for (int i = 0; i < originalImage.Width; i++)
+                {
+                    for (int j = 0; j < originalImage.Height; j++)
+                    {
+                        // Calculate the gray value using a weighted average
+                        int grayValue = CalculateGrayValue(vImg1R[i, j], vImg1G[i, j], vImg1B[i, j]);
+
+                        // Convert to 8-bit grayscale
+                        grayValue = grayValue / 257;
+
+                        // Create a gray pixel
+                        Color grayPixel = Color.FromArgb(grayValue, grayValue, grayValue);
+
+                        // Set the pixel in the image
+                        originalImage.SetPixel(i, j, grayPixel);
+
+                        // Update the RGB arrays
+                        vImg1R[i, j] = (byte)grayValue;
+                        vImg1G[i, j] = (byte)grayValue;
+                        vImg1B[i, j] = (byte)grayValue;
+                    }
+                }
+
+                pictureBox3.Image = originalImage;
             }
 
-            pictureBox3.Image = image1;
+            // Calculates the gray value using a weighted average
+            private int CalculateGrayValue(int r, int g, int b)
+            {
+                return (int)(0.299 * r + 0.587 * g + 0.114 * b);
+            }
 
         }
 
