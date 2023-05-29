@@ -996,7 +996,7 @@ namespace WindowsFormsApp1
 
                             int max = mask.Max();
 
-                           
+
 
                             // Atualizar o pixel na imagem de destino
                             Color p2 = Color.FromArgb(max, max, max);
@@ -1364,8 +1364,193 @@ namespace WindowsFormsApp1
 
         private void btnRealceMediana_Click(object sender, EventArgs e)
         {
+            Bitmap image1 = (Bitmap)pictureBox1.Image;
+            if (image1 == null)
+            {
+                MessageBox.Show("Selecione uma imagem para a imagem 1.");
+                return;
+            }
 
+            Bitmap image3 = new Bitmap(image1.Width, image1.Height);
+
+            if (image1.PixelFormat == PixelFormat.Format8bppIndexed)
+            {
+                // A imagem está em tons de cinza
+                for (int i = 1; i < image1.Width - 1; i++)
+                {
+                    for (int j = 1; j < image1.Height - 1; j++)
+                    {
+                        byte[] mask = new byte[9];
+
+                        for (int w = 0; w < mask.Length; w++) mask[w] = 1;
+
+                        mask[0] = (byte)(mask[0] * vImg1Gray[i - 1, j - 1]);
+                        mask[1] = (byte)(mask[1] * vImg1Gray[i - 1, j]);
+                        mask[2] = (byte)(mask[2] * vImg1Gray[i - 1, j + 1]);
+
+                        mask[3] = (byte)(mask[3] * vImg1Gray[i, j - 1]);
+                        mask[4] = (byte)(mask[4] * vImg1Gray[i, j]);
+                        mask[5] = (byte)(mask[5] * vImg1Gray[i, j + 1]);
+
+                        mask[6] = (byte)(mask[6] * vImg1Gray[i + 1, j - 1]);
+                        mask[7] = (byte)(mask[7] * vImg1Gray[i + 1, j]);
+                        mask[8] = (byte)(mask[8] * vImg1Gray[i + 1, j + 1]);
+
+
+                        Array.Sort(mask);
+
+                        byte median = mask[4];
+                        Color p2 = Color.FromArgb(median, median, median);
+
+                        image3.SetPixel(i, j, p2);
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 1; i < image1.Width - 1; i++)
+                {
+                    for (int j = 1; j < image1.Height - 1; j++)
+                    {
+                        // Greyscale
+                        int grey = (vImg1R[i, j] + vImg1G[i, j] + vImg1B[i, j]) / 3;
+
+                        Color p = Color.FromArgb(grey, grey, grey);
+
+                        vImg1R[i, j] = (byte)grey;
+                        vImg1G[i, j] = (byte)grey;
+                        vImg1B[i, j] = (byte)grey;
+
+                        image1.SetPixel(i, j, p);
+
+                        byte[] mask = new byte[9];
+
+                        for (int w = 0; w < mask.Length; w++) mask[w] = 1;
+
+                        mask[0] = (byte)(mask[0] * vImg1Gray[i - 1, j - 1]);
+                        mask[1] = (byte)(mask[1] * vImg1Gray[i - 1, j]);
+                        mask[2] = (byte)(mask[2] * vImg1Gray[i - 1, j + 1]);
+
+                        mask[3] = (byte)(mask[3] * vImg1Gray[i, j - 1]);
+                        mask[4] = (byte)(mask[4] * vImg1Gray[i, j]);
+                        mask[5] = (byte)(mask[5] * vImg1Gray[i, j + 1]);
+
+                        mask[6] = (byte)(mask[6] * vImg1Gray[i + 1, j - 1]);
+                        mask[7] = (byte)(mask[7] * vImg1Gray[i + 1, j]);
+                        mask[8] = (byte)(mask[8] * vImg1Gray[i + 1, j + 1]);
+
+
+
+                        Array.Sort(mask);
+
+                        byte median = mask[4];
+                        Color p2 = Color.FromArgb(median, median, median);
+
+                        image3.SetPixel(i, j, p2);
+                    }
+                }
+            }
+
+            pictureBox3.Image = image3;
         }
+
+        private void btnRealceOrdem_Click(object sender, EventArgs e)
+        {
+            // Verifica se o usuário digitou um valor válido para a ordem
+            if (!int.TryParse(txOrdem.Text, out int ordem) || ordem < 0 || ordem > 8)
+            {
+                MessageBox.Show("Digite um valor válido para a ordem (0-8).");
+                return;
+            }
+
+            Bitmap image1 = (Bitmap)pictureBox1.Image;
+            if (image1 == null)
+            {
+                MessageBox.Show("Selecione uma imagem para a imagem 1.");
+                return;
+            }
+
+            Bitmap image3 = new Bitmap(image1.Width, image1.Height);
+
+            if (image1.PixelFormat == PixelFormat.Format8bppIndexed)
+            {
+                // Imagem em tons de cinza
+                for (int i = 1; i < image1.Width - 1; i++)
+                {
+                    for (int j = 1; j < image1.Height - 1; j++)
+                    {
+
+                 
+                        Int32[] mask = new Int32[9];
+                        for (int w = 0; w < mask.Length; w++) mask[w] = 1;
+
+  
+
+                        mask[0] = (mask[0] * vImg1Gray[i - 1, j - 1]);
+                        mask[1] = (mask[1] * vImg1Gray[i - 1, j]);
+                        mask[2] = (mask[2] * vImg1Gray[i - 1, j + 1]);
+
+                        mask[3] = (mask[3] * vImg1Gray[i, j - 1]);
+                        mask[4] = (mask[4] * vImg1Gray[i, j]);
+                        mask[5] = (mask[5] * vImg1Gray[i, j + 1]);
+
+                        mask[6] = (mask[6] * vImg1Gray[i + 1, j - 1]);
+                        mask[7] = (mask[7] * vImg1Gray[i + 1, j]);
+                        mask[8] = (mask[8] * vImg1Gray[i + 1, j + 1]);
+
+                        Console.WriteLine("mask: {0}", string.Join(", ", mask));
+
+                        int padrao = mask[ordem];
+
+                        Console.WriteLine("padrao: {0}", padrao);
+
+                        Color p2 = Color.FromArgb(padrao, padrao, padrao);
+
+                        image3.SetPixel(i, j, p2);
+                    }
+                }
+            }
+            else
+            {
+                // Imagem colorida
+                for (int i = 1; i < image1.Width - 1; i++)
+                {
+                    for (int j = 1; j < image1.Height - 1; j++)
+                    {
+                        // Convertendo para tons de cinza
+                        int grey = (vImg1R[i, j] + vImg1G[i, j] + vImg1B[i, j]) / 3;
+
+                        byte[] mask = new byte[9];
+                        for (int w = 0; w < mask.Length; w++)
+                            mask[w] = 1;
+
+
+                        mask[0] = (byte)(mask[0] * vImg1Gray[i - 1, j - 1]);
+                        mask[1] = (byte)(mask[1] * vImg1Gray[i - 1, j]);
+                        mask[2] = (byte)(mask[2] * vImg1Gray[i - 1, j + 1]);
+
+                        mask[3] = (byte)(mask[3] * vImg1Gray[i, j - 1]);
+                        mask[4] = (byte)(mask[4] * vImg1Gray[i, j]);
+                        mask[5] = (byte)(mask[5] * vImg1Gray[i, j + 1]);
+
+                        mask[6] = (byte)(mask[6] * vImg1Gray[i + 1, j - 1]);
+                        mask[7] = (byte)(mask[7] * vImg1Gray[i + 1, j]);
+                        mask[8] = (byte)(mask[8] * vImg1Gray[i + 1, j + 1]);
+
+                        byte padrao = mask[ordem];
+                        Color p2 = Color.FromArgb(padrao, padrao, padrao);
+
+                        image3.SetPixel(i, j, p2);
+                    }
+                }
+            }
+
+            pictureBox3.Image = image3;
+        }
+
+
+
+
     }
 
 

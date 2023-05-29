@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnSub = new System.Windows.Forms.Button();
             this.btnMult = new System.Windows.Forms.Button();
@@ -347,6 +347,7 @@
             this.btnRealceOrdem.TabIndex = 29;
             this.btnRealceOrdem.Text = "ORDEM";
             this.btnRealceOrdem.UseVisualStyleBackColor = true;
+            this.btnRealceOrdem.Click += new System.EventHandler(this.btnRealceOrdem_Click);
             // 
             // btnRealceMediana
             // 
@@ -394,34 +395,34 @@
             // 
             // histDefault
             // 
-            chartArea1.Name = "ChartArea1";
-            this.histDefault.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.histDefault.Legends.Add(legend1);
+            chartArea3.Name = "ChartArea1";
+            this.histDefault.ChartAreas.Add(chartArea3);
+            legend3.Name = "Legend1";
+            this.histDefault.Legends.Add(legend3);
             this.histDefault.Location = new System.Drawing.Point(34, 405);
             this.histDefault.Name = "histDefault";
             this.histDefault.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.SemiTransparent;
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.histDefault.Series.Add(series1);
+            series3.ChartArea = "ChartArea1";
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            this.histDefault.Series.Add(series3);
             this.histDefault.Size = new System.Drawing.Size(403, 196);
             this.histDefault.TabIndex = 35;
             this.histDefault.Text = "chart1";
             // 
             // histNormalizado
             // 
-            chartArea2.Name = "ChartArea1";
-            this.histNormalizado.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.histNormalizado.Legends.Add(legend2);
+            chartArea4.Name = "ChartArea1";
+            this.histNormalizado.ChartAreas.Add(chartArea4);
+            legend4.Name = "Legend1";
+            this.histNormalizado.Legends.Add(legend4);
             this.histNormalizado.Location = new System.Drawing.Point(509, 405);
             this.histNormalizado.Name = "histNormalizado";
             this.histNormalizado.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.SemiTransparent;
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.histNormalizado.Series.Add(series2);
+            series4.ChartArea = "ChartArea1";
+            series4.Legend = "Legend1";
+            series4.Name = "Series1";
+            this.histNormalizado.Series.Add(series4);
             this.histNormalizado.Size = new System.Drawing.Size(403, 196);
             this.histNormalizado.TabIndex = 36;
             this.histNormalizado.Tag = "";
