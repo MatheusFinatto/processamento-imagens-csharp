@@ -1152,50 +1152,79 @@ namespace WindowsFormsApp1
 
             int[] pixelIntensityRate = new int[256];
 
+            // Calcula o histograma da imagem original
             for (int i = 0; i < width; i++)
             {
                 for (int y = 0; y < height; y++)
                 {
-                    //A imagem deve ser em greyscale, portanto, qualquer pixel vale
                     int pixelVal = image1.GetPixel(i, y).R;
                     pixelIntensityRate[pixelVal]++;
                 }
             }
 
+            // Cria um array para armazenar a Distribuição Cumulativa de Frequências (CDF)
+            // O tamanho do array é definido como 256, pois esse é o número máximo de valores de intensidade de pixel em uma imagem em escala de cinza
             double[] CFD = new double[256];
-            int pixelsCount = width * width;
+
+            // Conta os pixels da imagem
+            int pixelsCount = width * height;
+
+            // Define o primeiro elemento da CDF como a frequência do pixel de intensidade na posição 0 do histograma, dividida pelo número total de pixels na imagem.
+            // Essa etapa normaliza o valor para obter a probabilidade de ocorrência desse pixel de intensidade na imagem.
             CFD[0] = pixelIntensityRate[0] / (double)pixelsCount;
+
+            // Calcula a Distribuição Cumulativa de Frequências (CDF)
             for (int i = 1; i < 256; i++)
             {
                 CFD[i] = CFD[i - 1] + pixelIntensityRate[i] / (double)pixelsCount;
             }
 
-
+            // Cria uma nova imagem em escala de cinza para armazenar os pixels equalizados
             byte[,] finalImg = new byte[width, height];
 
+            // Cria um array para armazenar o histograma dos pixels equalizados
+            // O tamanho do array é definido como 256 para acomodar todos os possíveis valores de intensidade de pixel
             int[] finalPixelRate = new int[256];
+
+            // Equaliza os valores dos pixels na imagem final
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
                 {
-                    int pixel = vImg1Gray[i, j];
-                    finalImg[i, j] = (byte)Math.Round(CFD[pixel] * 255.0);
+                    int pixel = image1.GetPixel(i, j).R;
+
+                    // Calcula o novo valor do pixel equalizado usando a fórmula 
+                    finalImg[i, j] = (byte)Math.Floor((CFD[pixel] - CFD.Min()) / (1 - CFD.Min()) * (256 - 1));
+
+                    // Incrementa a contagem do pixel equalizado para o histograma
                     finalPixelRate[finalImg[i, j]]++;
                 }
             }
 
+            // Limpa o histograma padrão
             histDefault.Series.Clear();
+            // Adiciona uma série para o histograma padrão
             histDefault.Series.Add("Histograma A");
+            // Define o tipo de gráfico da série como coluna
             histDefault.Series["Histograma A"].ChartType = SeriesChartType.Column;
+            // Popula os pontos do histograma com os valores de intensidade de pixel
             histDefault.Series["Histograma A"].Points.DataBindY(pixelIntensityRate);
+            // Define o valor máximo do eixo Y do histograma para garantir que todos os pontos sejam visíveis
             histDefault.ChartAreas[0].AxisY.Maximum = pixelIntensityRate.Max() + 10;
 
+            // Limpa o histograma normalizado
             histNormalizado.Series.Clear();
+            // Adiciona uma série para o histograma normalizado
             histNormalizado.Series.Add("Resultado");
+            // Define o tipo de gráfico da série como coluna
             histNormalizado.Series["Resultado"].ChartType = SeriesChartType.Column;
+            // Popula os pontos do histograma normalizado com os valores de intensidade de pixel equalizados
             histNormalizado.Series["Resultado"].Points.DataBindY(finalPixelRate);
+            // Define o valor máximo do eixo Y do histograma normalizado para garantir que todos os pontos sejam visíveis
             histNormalizado.ChartAreas[0].AxisY.Maximum = finalPixelRate.Max() + 10;
 
+
+            // Percorre cada pixel na imagem final e transforma em escala de cinza equalizada
             for (int i = 0; i < image3.Width; i++)
             {
                 for (int j = 0; j < image3.Height; j++)
@@ -1209,6 +1238,7 @@ namespace WindowsFormsApp1
 
             pictureBox3.Image = image3;
         }
+
     }
 
 
@@ -1216,5 +1246,5 @@ namespace WindowsFormsApp1
 
 
 
-    
+
 }
