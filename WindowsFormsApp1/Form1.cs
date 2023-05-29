@@ -367,81 +367,81 @@ namespace WindowsFormsApp1
 
         private void btnSub_Click(object sender, EventArgs e)
         {
-                Bitmap resultImage = new Bitmap(img1.Width, img1.Height);
+            Bitmap resultImage = new Bitmap(img1.Width, img1.Height);
 
-                bool isGrayscale = IsGrayscaleImage(img1) && IsGrayscaleImage(img2);
+            bool isGrayscale = IsGrayscaleImage(img1) && IsGrayscaleImage(img2);
 
-                int subtractValue = 0;
-                if (!string.IsNullOrEmpty(txSub.Text))
+            int subtractValue = 0;
+            if (!string.IsNullOrEmpty(txSub.Text))
+            {
+                if (!int.TryParse(txSub.Text, out subtractValue))
                 {
-                    if (!int.TryParse(txSub.Text, out subtractValue))
-                    {
-                        MessageBox.Show("Invalid value in txSub. Please enter a valid integer.", "Invalid Value", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
+                    MessageBox.Show("Invalid value in txSub. Please enter a valid integer.", "Invalid Value", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
+            }
 
-                for (int i = 0; i < img1.Width; i++)
+            for (int i = 0; i < img1.Width; i++)
+            {
+                for (int j = 0; j < img1.Height; j++)
                 {
-                    for (int j = 0; j < img1.Height; j++)
+                    int pixelR, pixelG, pixelB, pixelA;
+
+                    if (!string.IsNullOrEmpty(txSub.Text))
                     {
-                        int pixelR, pixelG, pixelB, pixelA;
+                        if (!checkExistance())
+                            return;
 
-                        if (!string.IsNullOrEmpty(txSub.Text))
+                        // Subtract the value from txSubtract from the pixel values of image 1
+                        if (isGrayscale)
                         {
-                            if (!checkExistance())
-                                return;
-
-                            // Subtract the value from txSubtract from the pixel values of image 1
-                            if (isGrayscale)
-                            {
-                                pixelR = vImg1Gray[i, j] - subtractValue;
-                                pixelG = pixelR;
-                                pixelB = pixelR;
-                                pixelA = 255;
-                            }
-                            else
-                            {
-                                pixelR = vImg1R[i, j] - subtractValue;
-                                pixelG = vImg1G[i, j] - subtractValue;
-                                pixelB = vImg1B[i, j] - subtractValue;
-                            }
+                            pixelR = vImg1Gray[i, j] - subtractValue;
+                            pixelG = pixelR;
+                            pixelB = pixelR;
+                            pixelA = 255;
                         }
                         else
                         {
-                            if (!checkExistance("needed"))
-                                return;
-
-                            if (!checkDimensions(img1, img2))
-                                return;
-
-                            // Perform the subtraction of pixel values from image 1 and image 2
-                            if (isGrayscale)
-                            {
-                                pixelR = vImg1Gray[i, j] - vImg2Gray[i, j];
-                                pixelG = pixelR;
-                                pixelB = pixelR;
-                                pixelA = 255;
-                            }
-                            else
-                            {
-                                pixelR = vImg1R[i, j] - vImg2R[i, j];
-                                pixelG = vImg1G[i, j] - vImg2G[i, j];
-                                pixelB = vImg1B[i, j] - vImg2B[i, j];
-                            }
+                            pixelR = vImg1R[i, j] - subtractValue;
+                            pixelG = vImg1G[i, j] - subtractValue;
+                            pixelB = vImg1B[i, j] - subtractValue;
                         }
-
-                        // Captação dos valores no intervalo válido (0-255)
-                        pixelG = Math.Max(1, Math.Min(255, pixelG));
-                        pixelB = Math.Max(1, Math.Min(255, pixelB));
-                        pixelR = Math.Max(1, Math.Min(255, pixelR));
-
-                        Color pixelColor = Color.FromArgb(pixelR, pixelG, pixelB);
-                        resultImage.SetPixel(i, j, pixelColor);
                     }
-                }
+                    else
+                    {
+                        if (!checkExistance("needed"))
+                            return;
 
-                pictureBox3.Image = resultImage;
+                        if (!checkDimensions(img1, img2))
+                            return;
+
+                        // Perform the subtraction of pixel values from image 1 and image 2
+                        if (isGrayscale)
+                        {
+                            pixelR = vImg1Gray[i, j] - vImg2Gray[i, j];
+                            pixelG = pixelR;
+                            pixelB = pixelR;
+                            pixelA = 255;
+                        }
+                        else
+                        {
+                            pixelR = vImg1R[i, j] - vImg2R[i, j];
+                            pixelG = vImg1G[i, j] - vImg2G[i, j];
+                            pixelB = vImg1B[i, j] - vImg2B[i, j];
+                        }
+                    }
+
+                    // Captação dos valores no intervalo válido (0-255)
+                    pixelG = Math.Max(1, Math.Min(255, pixelG));
+                    pixelB = Math.Max(1, Math.Min(255, pixelB));
+                    pixelR = Math.Max(1, Math.Min(255, pixelR));
+
+                    Color pixelColor = Color.FromArgb(pixelR, pixelG, pixelB);
+                    resultImage.SetPixel(i, j, pixelColor);
+                }
+            }
+
+            pictureBox3.Image = resultImage;
         }
 
         private void btnMult_Click(object sender, EventArgs e)
@@ -580,7 +580,7 @@ namespace WindowsFormsApp1
                         }
                         else
                         {
-                            if (vImg2R[i, j] != 0 ) pixelR = vImg1R[i, j] / vImg2R[i, j];
+                            if (vImg2R[i, j] != 0) pixelR = vImg1R[i, j] / vImg2R[i, j];
                             else pixelR = vImg1R[i, j];
                             if (vImg2G[i, j] != 0) pixelG = vImg1G[i, j] / vImg2G[i, j];
                             else pixelG = vImg1G[i, j];
@@ -889,21 +889,21 @@ namespace WindowsFormsApp1
                 {
 
 
-                        //Greyscale
-                        int grey = (vImg1R[i, j] + vImg1G[i, j] + vImg1B[i, j]) / 3;
+                    //Greyscale
+                    int grey = (vImg1R[i, j] + vImg1G[i, j] + vImg1B[i, j]) / 3;
 
-                        //1bit
-                        if (grey >= 128) grey = 255;
-                        else if (grey < 128) grey = 0;
+                    //1bit
+                    if (grey >= 128) grey = 255;
+                    else if (grey < 128) grey = 0;
 
-                        Color p = Color.FromArgb(grey, grey, grey);
+                    Color p = Color.FromArgb(grey, grey, grey);
 
-                        vImg1R[i, j] = (byte)grey;
-                        vImg1G[i, j] = (byte)grey;
-                        vImg1B[i, j] = (byte)grey;
+                    vImg1R[i, j] = (byte)grey;
+                    vImg1G[i, j] = (byte)grey;
+                    vImg1B[i, j] = (byte)grey;
 
-                        image1.SetPixel(i, j, p);
-                    
+                    image1.SetPixel(i, j, p);
+
                 }
             }
 
@@ -917,35 +917,35 @@ namespace WindowsFormsApp1
 
             Bitmap originalImage = (Bitmap)pictureBox1.Image;
 
-                if (originalImage == null)
-                {
-                    MessageBox.Show("Selecione uma imagem.");
-                    return;
-                }
+            if (originalImage == null)
+            {
+                MessageBox.Show("Selecione uma imagem.");
+                return;
+            }
 
-                for (int i = 0; i < originalImage.Width; i++)
+            for (int i = 0; i < originalImage.Width; i++)
+            {
+                for (int j = 0; j < originalImage.Height; j++)
                 {
-                    for (int j = 0; j < originalImage.Height; j++)
-                    {
                     // Calculate the gray value using a weighted average
                     int grayValue = (int)(0.299 * vImg1R[i, j] + 0.587 * vImg1G[i, j] + 0.114 * vImg1B[i, j]);
-                        
 
-                        // Create a gray pixel
-                        Color grayPixel = Color.FromArgb(grayValue, grayValue, grayValue);
 
-                        // Set the pixel in the image
-                        originalImage.SetPixel(i, j, grayPixel);
+                    // Create a gray pixel
+                    Color grayPixel = Color.FromArgb(grayValue, grayValue, grayValue);
 
-                        // Update the RGB arrays
-                        vImg1R[i, j] = (byte)grayValue;
-                        vImg1G[i, j] = (byte)grayValue;
-                        vImg1B[i, j] = (byte)grayValue;
-                    }
+                    // Set the pixel in the image
+                    originalImage.SetPixel(i, j, grayPixel);
+
+                    // Update the RGB arrays
+                    vImg1R[i, j] = (byte)grayValue;
+                    vImg1G[i, j] = (byte)grayValue;
+                    vImg1B[i, j] = (byte)grayValue;
                 }
-
-                pictureBox3.Image = originalImage;
             }
+
+            pictureBox3.Image = originalImage;
+        }
 
 
 
@@ -965,51 +965,90 @@ namespace WindowsFormsApp1
 
             Bitmap image3 = new Bitmap(image1.Width, image1.Height);
 
-            for (int i = 1; i < image1.Width - 1; i++)
+            if (image1 != null)
             {
-                for (int j = 1; j < image1.Height - 1; j++)
+                // Verificação para imagem em tons de cinza
+                // Verificação para imagem em tons de cinza
+                if (image1.PixelFormat == PixelFormat.Format8bppIndexed)
                 {
+                    // A imagem está em tons de cinza
 
-                    if (image1 != null)
+                    // Exemplo: percorrer os pixels em tons de cinza
+                    for (int i = 1; i < image1.Width - 1; i++)
                     {
+                        for (int j = 1; j < image1.Height - 1; j++)
+                        {
 
-                        //Greyscale
-                        int grey = (vImg1R[i, j] + vImg1G[i, j] + vImg1B[i, j]) / 3;
+                            Int32[] mask = new Int32[9];
+                            for (int w = 0; w < mask.Length; w++) mask[w] = 1;
 
-                        Color p = Color.FromArgb(grey, grey, grey);
+                            mask[0] = (mask[0] * vImg1Gray[i - 1, j - 1]);
+                            mask[1] = (mask[1] * vImg1Gray[i - 1, j]);
+                            mask[2] = (mask[2] * vImg1Gray[i - 1, j + 1]);
 
-                        vImg1R[i, j] = (byte)grey;
-                        vImg1G[i, j] = (byte)grey;
-                        vImg1B[i, j] = (byte)grey;
+                            mask[3] = (mask[3] * vImg1Gray[i, j - 1]);
+                            mask[4] = (mask[4] * vImg1Gray[i, j]);
+                            mask[5] = (mask[5] * vImg1Gray[i, j + 1]);
 
-                        image1.SetPixel(i, j, p);
+                            mask[6] = (mask[6] * vImg1Gray[i + 1, j - 1]);
+                            mask[7] = (mask[7] * vImg1Gray[i + 1, j]);
+                            mask[8] = (mask[8] * vImg1Gray[i + 1, j + 1]);
+
+                            int max = mask.Max();
+
+                           
+
+                            // Atualizar o pixel na imagem de destino
+                            Color p2 = Color.FromArgb(max, max, max);
+                            image3.SetPixel(i, j, p2);
+                        }
                     }
-
-                    byte[] mask = new byte[9];
-                    for (int w = 0; w < mask.Length; w++)
-                        mask[w] = 1;
-
-                    mask[0] = (byte)(mask[0] * vImg1Gray[i - 1, j - 1]);
-                    mask[1] = (byte)(mask[1] * vImg1Gray[i - 1, j]);
-                    mask[2] = (byte)(mask[2] * vImg1Gray[i - 1, j + 1]);
-
-                    mask[3] = (byte)(mask[3] * vImg1Gray[i, j - 1]);
-                    mask[4] = (byte)(mask[4] * vImg1Gray[i, j]);
-                    mask[5] = (byte)(mask[5] * vImg1Gray[i, j + 1]);
-
-                    mask[6] = (byte)(mask[6] * vImg1Gray[i + 1, j - 1]);
-                    mask[7] = (byte)(mask[7] * vImg1Gray[i + 1, j]);
-                    mask[8] = (byte)(mask[8] * vImg1Gray[i + 1, j + 1]);
-
-
-                    byte max = mask.Max();
-                    Color p2 = Color.FromArgb(max, max, max);
-
-                    image3.SetPixel(i, j, p2);
                 }
-            }
 
-            pictureBox3.Image = image3;
+                else
+                {
+                    for (int i = 1; i < image1.Width - 1; i++)
+                    {
+                        for (int j = 1; j < image1.Height - 1; j++)
+                        {
+                            //Greyscale
+                            int grey = (vImg1R[i, j] + vImg1G[i, j] + vImg1B[i, j]) / 3;
+
+                            Color p = Color.FromArgb(grey, grey, grey);
+
+                            vImg1R[i, j] = (byte)grey;
+                            vImg1G[i, j] = (byte)grey;
+                            vImg1B[i, j] = (byte)grey;
+
+                            image1.SetPixel(i, j, p);
+
+
+                            byte[] mask = new byte[9];
+                            for (int w = 0; w < mask.Length; w++) mask[w] = 1;
+
+                            mask[0] = (byte)(mask[0] * vImg1Gray[i - 1, j - 1]);
+                            mask[1] = (byte)(mask[1] * vImg1Gray[i - 1, j]);
+                            mask[2] = (byte)(mask[2] * vImg1Gray[i - 1, j + 1]);
+
+                            mask[3] = (byte)(mask[3] * vImg1Gray[i, j - 1]);
+                            mask[4] = (byte)(mask[4] * vImg1Gray[i, j]);
+                            mask[5] = (byte)(mask[5] * vImg1Gray[i, j + 1]);
+
+                            mask[6] = (byte)(mask[6] * vImg1Gray[i + 1, j - 1]);
+                            mask[7] = (byte)(mask[7] * vImg1Gray[i + 1, j]);
+                            mask[8] = (byte)(mask[8] * vImg1Gray[i + 1, j + 1]);
+
+
+                            byte max = mask.Max();
+                            Color p2 = Color.FromArgb(max, max, max);
+
+                            image3.SetPixel(i, j, p2);
+                        }
+                    }
+                }
+
+                pictureBox3.Image = image3;
+            }
         }
 
         private void btnRealceMin_Click(object sender, EventArgs e)
@@ -1023,57 +1062,96 @@ namespace WindowsFormsApp1
 
             Bitmap image3 = new Bitmap(image1.Width, image1.Height);
 
-            for (int i = 1; i < image1.Width - 1; i++)
+            if (image1 != null)
             {
-                for (int j = 1; j < image1.Height - 1; j++)
+                // Verificação para imagem em tons de cinza
+                // Verificação para imagem em tons de cinza
+                if (image1.PixelFormat == PixelFormat.Format8bppIndexed)
                 {
+                    // A imagem está em tons de cinza
 
-                    if (image1 != null)
+                    // Exemplo: percorrer os pixels em tons de cinza
+                    for (int i = 1; i < image1.Width - 1; i++)
                     {
+                        for (int j = 1; j < image1.Height - 1; j++)
+                        {
 
-                        //Greyscale
-                        int grey = (vImg1R[i, j] + vImg1G[i, j] + vImg1B[i, j]) / 3;
+                            Int32[] mask = new Int32[9];
+                            for (int w = 0; w < mask.Length; w++) mask[w] = 1;
 
-                        Color p = Color.FromArgb(grey, grey, grey);
+                            mask[0] = (mask[0] * vImg1Gray[i - 1, j - 1]);
+                            mask[1] = (mask[1] * vImg1Gray[i - 1, j]);
+                            mask[2] = (mask[2] * vImg1Gray[i - 1, j + 1]);
 
-                        vImg1R[i, j] = (byte)grey;
-                        vImg1G[i, j] = (byte)grey;
-                        vImg1B[i, j] = (byte)grey;
+                            mask[3] = (mask[3] * vImg1Gray[i, j - 1]);
+                            mask[4] = (mask[4] * vImg1Gray[i, j]);
+                            mask[5] = (mask[5] * vImg1Gray[i, j + 1]);
 
-                        image1.SetPixel(i, j, p);
+                            mask[6] = (mask[6] * vImg1Gray[i + 1, j - 1]);
+                            mask[7] = (mask[7] * vImg1Gray[i + 1, j]);
+                            mask[8] = (mask[8] * vImg1Gray[i + 1, j + 1]);
+
+                            int max = mask.Min();
+
+
+
+                            // Atualizar o pixel na imagem de destino
+                            Color p2 = Color.FromArgb(max, max, max);
+                            image3.SetPixel(i, j, p2);
+                        }
                     }
-
-                    byte[] mask = new byte[9];
-                    for (int w = 0; w < mask.Length; w++)
-                        mask[w] = 1;
-
-                    mask[0] = (byte)(mask[0] * vImg1Gray[i - 1, j - 1]);
-                    mask[1] = (byte)(mask[1] * vImg1Gray[i - 1, j]);
-                    mask[2] = (byte)(mask[2] * vImg1Gray[i - 1, j + 1]);
-
-                    mask[3] = (byte)(mask[3] * vImg1Gray[i, j - 1]);
-                    mask[4] = (byte)(mask[4] * vImg1Gray[i, j]);
-                    mask[5] = (byte)(mask[5] * vImg1Gray[i, j + 1]);
-
-                    mask[6] = (byte)(mask[6] * vImg1Gray[i + 1, j - 1]);
-                    mask[7] = (byte)(mask[7] * vImg1Gray[i + 1, j]);
-                    mask[8] = (byte)(mask[8] * vImg1Gray[i + 1, j + 1]);
-
-
-                    byte min = mask.Min();
-                    Color p2 = Color.FromArgb(min, min, min);
-
-                    image3.SetPixel(i, j, p2);
                 }
-            }
 
-            pictureBox3.Image = image3;
+                else
+                {
+                    for (int i = 1; i < image1.Width - 1; i++)
+                    {
+                        for (int j = 1; j < image1.Height - 1; j++)
+                        {
+                            //Greyscale
+                            int grey = (vImg1R[i, j] + vImg1G[i, j] + vImg1B[i, j]) / 3;
+
+                            Color p = Color.FromArgb(grey, grey, grey);
+
+                            vImg1R[i, j] = (byte)grey;
+                            vImg1G[i, j] = (byte)grey;
+                            vImg1B[i, j] = (byte)grey;
+
+                            image1.SetPixel(i, j, p);
+
+
+                            byte[] mask = new byte[9];
+                            for (int w = 0; w < mask.Length; w++) mask[w] = 1;
+
+                            mask[0] = (byte)(mask[0] * vImg1Gray[i - 1, j - 1]);
+                            mask[1] = (byte)(mask[1] * vImg1Gray[i - 1, j]);
+                            mask[2] = (byte)(mask[2] * vImg1Gray[i - 1, j + 1]);
+
+                            mask[3] = (byte)(mask[3] * vImg1Gray[i, j - 1]);
+                            mask[4] = (byte)(mask[4] * vImg1Gray[i, j]);
+                            mask[5] = (byte)(mask[5] * vImg1Gray[i, j + 1]);
+
+                            mask[6] = (byte)(mask[6] * vImg1Gray[i + 1, j - 1]);
+                            mask[7] = (byte)(mask[7] * vImg1Gray[i + 1, j]);
+                            mask[8] = (byte)(mask[8] * vImg1Gray[i + 1, j + 1]);
+
+
+                            byte max = mask.Min();
+                            Color p2 = Color.FromArgb(max, max, max);
+
+                            image3.SetPixel(i, j, p2);
+                        }
+                    }
+                }
+
+                pictureBox3.Image = image3;
+            }
         }
+
 
         private void btnRealceMedia_Click(object sender, EventArgs e)
         {
             Bitmap image1 = (Bitmap)pictureBox1.Image;
-
             if (image1 == null)
             {
                 MessageBox.Show("Selecione uma imagem para a imagem 1.");
@@ -1082,57 +1160,102 @@ namespace WindowsFormsApp1
 
             Bitmap image3 = new Bitmap(image1.Width, image1.Height);
 
-            for (int i = 1; i < image1.Width - 1; i++)
+            if (image1 != null)
             {
-                for (int j = 1; j < image1.Height - 1; j++)
+                // Verificação para imagem em tons de cinza
+                // Verificação para imagem em tons de cinza
+                if (image1.PixelFormat == PixelFormat.Format8bppIndexed)
                 {
+                    // A imagem está em tons de cinza
 
-                    if (image1 != null)
+                    // Exemplo: percorrer os pixels em tons de cinza
+                    for (int i = 1; i < image1.Width - 1; i++)
                     {
+                        for (int j = 1; j < image1.Height - 1; j++)
+                        {
 
-                        //Greyscale
-                        int grey = (vImg1R[i, j] + vImg1G[i, j] + vImg1B[i, j]) / 3;
+                            Int32[] mask = new Int32[9];
+                            for (int w = 0; w < mask.Length; w++) mask[w] = 1;
 
-                        Color p = Color.FromArgb(grey, grey, grey);
+                            mask[0] = (mask[0] * vImg1Gray[i - 1, j - 1]);
+                            mask[1] = (mask[1] * vImg1Gray[i - 1, j]);
+                            mask[2] = (mask[2] * vImg1Gray[i - 1, j + 1]);
 
-                        vImg1R[i, j] = (byte)grey;
-                        vImg1G[i, j] = (byte)grey;
-                        vImg1B[i, j] = (byte)grey;
+                            mask[3] = (mask[3] * vImg1Gray[i, j - 1]);
+                            mask[4] = (mask[4] * vImg1Gray[i, j]);
+                            mask[5] = (mask[5] * vImg1Gray[i, j + 1]);
 
-                        image1.SetPixel(i, j, p);
+                            mask[6] = (mask[6] * vImg1Gray[i + 1, j - 1]);
+                            mask[7] = (mask[7] * vImg1Gray[i + 1, j]);
+                            mask[8] = (mask[8] * vImg1Gray[i + 1, j + 1]);
+
+                            int acc = 0;
+                            for (int k = 0; k < mask.Length; k++)
+                            {
+                                acc += mask[k];
+                            }
+
+                            int mean = (acc / 9);
+
+
+
+                            // Atualizar o pixel na imagem de destino
+                            Color p2 = Color.FromArgb(mean, mean, mean);
+                            image3.SetPixel(i, j, p2);
+                        }
                     }
-
-                    byte[] mask = new byte[9];
-                    for (int w = 0; w < mask.Length; w++)
-                        mask[w] = 1;
-
-                    mask[0] = (byte)(mask[0] * vImg1Gray[i - 1, j - 1]);
-                    mask[1] = (byte)(mask[1] * vImg1Gray[i - 1, j]);
-                    mask[2] = (byte)(mask[2] * vImg1Gray[i - 1, j + 1]);
-
-                    mask[3] = (byte)(mask[3] * vImg1Gray[i, j - 1]);
-                    mask[4] = (byte)(mask[4] * vImg1Gray[i, j]);
-                    mask[5] = (byte)(mask[5] * vImg1Gray[i, j + 1]);
-
-                    mask[6] = (byte)(mask[6] * vImg1Gray[i + 1, j - 1]);
-                    mask[7] = (byte)(mask[7] * vImg1Gray[i + 1, j]);
-                    mask[8] = (byte)(mask[8] * vImg1Gray[i + 1, j + 1]);
-
-                    int acc = 0;
-                    for (int k = 0; k < mask.Length; k++)
-                    {
-                        acc += mask[k];
-                    }
-
-                    byte mean = (byte)(acc / 9);
-
-                    Color p2 = Color.FromArgb(mean, mean, mean);
-
-                    image3.SetPixel(i, j, p2);
                 }
-            }
 
-            pictureBox3.Image = image3;
+                else
+                {
+                    for (int i = 1; i < image1.Width - 1; i++)
+                    {
+                        for (int j = 1; j < image1.Height - 1; j++)
+                        {
+                            //Greyscale
+                            int grey = (vImg1R[i, j] + vImg1G[i, j] + vImg1B[i, j]) / 3;
+
+                            Color p = Color.FromArgb(grey, grey, grey);
+
+                            vImg1R[i, j] = (byte)grey;
+                            vImg1G[i, j] = (byte)grey;
+                            vImg1B[i, j] = (byte)grey;
+
+                            image1.SetPixel(i, j, p);
+
+
+                            byte[] mask = new byte[9];
+                            for (int w = 0; w < mask.Length; w++) mask[w] = 1;
+
+                            mask[0] = (byte)(mask[0] * vImg1Gray[i - 1, j - 1]);
+                            mask[1] = (byte)(mask[1] * vImg1Gray[i - 1, j]);
+                            mask[2] = (byte)(mask[2] * vImg1Gray[i - 1, j + 1]);
+
+                            mask[3] = (byte)(mask[3] * vImg1Gray[i, j - 1]);
+                            mask[4] = (byte)(mask[4] * vImg1Gray[i, j]);
+                            mask[5] = (byte)(mask[5] * vImg1Gray[i, j + 1]);
+
+                            mask[6] = (byte)(mask[6] * vImg1Gray[i + 1, j - 1]);
+                            mask[7] = (byte)(mask[7] * vImg1Gray[i + 1, j]);
+                            mask[8] = (byte)(mask[8] * vImg1Gray[i + 1, j + 1]);
+
+
+                            int acc = 0;
+                            for (int k = 0; k < mask.Length; k++)
+                            {
+                                acc += mask[k];
+                            }
+
+                            byte mean = (byte)(acc / 9);
+                            Color p2 = Color.FromArgb(mean, mean, mean);
+
+                            image3.SetPixel(i, j, p2);
+                        }
+                    }
+                }
+
+                pictureBox3.Image = image3;
+            }
         }
 
         private void equalizarHistograma_Click(object sender, EventArgs e)
@@ -1239,6 +1362,10 @@ namespace WindowsFormsApp1
             pictureBox3.Image = image3;
         }
 
+        private void btnRealceMediana_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 
 
