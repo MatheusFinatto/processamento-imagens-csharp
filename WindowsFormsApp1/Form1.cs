@@ -1091,12 +1091,10 @@ namespace WindowsFormsApp1
                             mask[7] = (mask[7] * vImg1Gray[i + 1, j]);
                             mask[8] = (mask[8] * vImg1Gray[i + 1, j + 1]);
 
-                            int max = mask.Min();
-
-
+                            int min = mask.Min();
 
                             // Atualizar o pixel na imagem de destino
-                            Color p2 = Color.FromArgb(max, max, max);
+                            Color p2 = Color.FromArgb(min, min, min);
                             image3.SetPixel(i, j, p2);
                         }
                     }
@@ -1119,7 +1117,6 @@ namespace WindowsFormsApp1
 
                             image1.SetPixel(i, j, p);
 
-
                             byte[] mask = new byte[9];
                             for (int w = 0; w < mask.Length; w++) mask[w] = 1;
 
@@ -1136,8 +1133,8 @@ namespace WindowsFormsApp1
                             mask[8] = (byte)(mask[8] * vImg1Gray[i + 1, j + 1]);
 
 
-                            byte max = mask.Min();
-                            Color p2 = Color.FromArgb(max, max, max);
+                            byte min = mask.Min();
+                            Color p2 = Color.FromArgb(min, min, min);
 
                             image3.SetPixel(i, j, p2);
                         }
@@ -1480,11 +1477,11 @@ namespace WindowsFormsApp1
                     for (int j = 1; j < image1.Height - 1; j++)
                     {
 
-                 
+
                         Int32[] mask = new Int32[9];
                         for (int w = 0; w < mask.Length; w++) mask[w] = 1;
 
-  
+
 
                         mask[0] = (mask[0] * vImg1Gray[i - 1, j - 1]);
                         mask[1] = (mask[1] * vImg1Gray[i - 1, j]);
@@ -1498,11 +1495,8 @@ namespace WindowsFormsApp1
                         mask[7] = (mask[7] * vImg1Gray[i + 1, j]);
                         mask[8] = (mask[8] * vImg1Gray[i + 1, j + 1]);
 
-                        Console.WriteLine("mask: {0}", string.Join(", ", mask));
-
+                        Array.Sort(mask);
                         int padrao = mask[ordem];
-
-                        Console.WriteLine("padrao: {0}", padrao);
 
                         Color p2 = Color.FromArgb(padrao, padrao, padrao);
 
@@ -1537,6 +1531,8 @@ namespace WindowsFormsApp1
                         mask[7] = (byte)(mask[7] * vImg1Gray[i + 1, j]);
                         mask[8] = (byte)(mask[8] * vImg1Gray[i + 1, j + 1]);
 
+
+                        Array.Sort(mask);
                         byte padrao = mask[ordem];
                         Color p2 = Color.FromArgb(padrao, padrao, padrao);
 
@@ -1546,6 +1542,177 @@ namespace WindowsFormsApp1
             }
 
             pictureBox3.Image = image3;
+        }
+
+        private void negativo_Click(object sender, EventArgs e)
+        {
+            Bitmap image1 = (Bitmap)pictureBox1.Image;
+            if (image1 == null)
+            {
+                MessageBox.Show("Selecione uma imagem no primeiro campo");
+                return;
+            }
+
+            Bitmap image3 = new Bitmap(image1.Width, image1.Height);
+
+            for (int i = 0; i < image1.Width; i++)
+            {
+                for (int j = 0; j < image1.Height; j++)
+                {
+                    Color cor1 = ((Bitmap)image1).GetPixel(i, j);
+                    int novoR = 255 - Math.Min(255, Math.Max(0, cor1.R + cor1.R));
+                    int novoG = 255 - Math.Min(255, Math.Max(0, cor1.G + cor1.G));
+                    int novoB = 255 - Math.Min(255, Math.Max(0, cor1.B + cor1.B));
+
+                    Color novaCor = Color.FromArgb(novoR, novoG, novoB);
+                    image3.SetPixel(i, j, novaCor);
+                }
+            }
+
+            pictureBox3.Image = image3;
+        }
+
+        private void btnRealceSuavConservativa_Click(object sender, EventArgs e)
+        {
+            Bitmap image1 = (Bitmap)pictureBox1.Image;
+            if (image1 == null)
+            {
+                MessageBox.Show("Selecione uma imagem para a imagem 1.");
+                return;
+            }
+
+            Bitmap image3 = new Bitmap(image1.Width, image1.Height);
+
+            if (image1.PixelFormat == PixelFormat.Format8bppIndexed)
+            {
+                // Imagem em tons de cinza
+                for (int i = 1; i < image1.Width - 1; i++)
+                {
+                    for (int j = 1; j < image1.Height - 1; j++)
+                    {
+                        byte[] mask = new byte[8];
+                        mask[0] = vImg1Gray[i - 1, j - 1];
+                        mask[1] = vImg1Gray[i - 1, j];
+                        mask[2] = vImg1Gray[i - 1, j + 1];
+                        mask[3] = vImg1Gray[i, j - 1];
+
+                        mask[4] = vImg1Gray[i, j + 1];
+                        mask[5] = vImg1Gray[i + 1, j - 1];
+                        mask[6] = vImg1Gray[i + 1, j];
+                        mask[7] = vImg1Gray[i + 1, j + 1];
+
+                        byte min = mask.Min();
+                        byte max = mask.Max();
+                        byte current = vImg1Gray[i, j];
+
+                        byte newValue;
+                        if (current > max)
+                        {
+                            newValue = max;
+                        }
+                        else if (current < min)
+                        {
+                            newValue = min;
+                        }
+                        else
+                        {
+                            newValue = current;
+                        }
+
+                        Color p2 = Color.FromArgb(newValue, newValue, newValue);
+                        image3.SetPixel(i, j, p2);
+
+                    }
+                }
+            }
+            else MessageBox.Show("Apenas imagens cinza suportadas para este filtro!");
+
+
+            pictureBox3.Image = image3;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+
+            Bitmap image1 = (Bitmap)pictureBox1.Image;
+            if (image1 == null)
+            {
+                MessageBox.Show("Selecione uma imagem para a imagem 1.");
+                return;
+            }
+
+            // Verifica se a imagem é RGB
+            if (image1.PixelFormat != PixelFormat.Format8bppIndexed)
+            {
+                MessageBox.Show("Imagens RGB não são suportadas.");
+                return;
+            }
+
+            double sigma = 1.0; // Valor do desvio padrão para o filtro gaussiano
+            int size = 5; // Tamanho do kernel gaussiano
+            double[,] kernel = CreateGaussianKernel(size, sigma);
+
+            Bitmap image3 = new Bitmap(image1.Width, image1.Height);
+
+            int width = image1.Width;
+            int height = image1.Height;
+
+            for (int i = size / 2; i < width - size / 2; i++)
+            {
+                for (int j = size / 2; j < height - size / 2; j++)
+                {
+                    // Calcular a convolução com o kernel gaussiano
+                    double sum = 0;
+                    for (int k = -size / 2; k <= size / 2; k++)
+                    {
+                        for (int l = -size / 2; l <= size / 2; l++)
+                        {
+                            Color pixel = image1.GetPixel(i + k, j + l);
+                            double gray = (pixel.R + pixel.G + pixel.B) / 3.0;
+                            sum += kernel[k + size / 2, l + size / 2] * gray;
+                        }
+                    }
+
+                    byte filteredGray = (byte)Math.Min(Math.Max(sum, 0), 255);
+
+                    Color filteredPixel = Color.FromArgb(filteredGray, filteredGray, filteredGray);
+                    image3.SetPixel(i, j, filteredPixel);
+                }
+            }
+
+            pictureBox3.Image = image3;
+        }
+
+
+        static double[,] CreateGaussianKernel(int size, double sigma)
+        {
+            double[,] kernel = new double[size, size];
+            double sum = 0.0;
+
+            // Calculate the values for the kernel matrix
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    int x = i - size / 2;
+                    int y = j - size / 2;
+
+                    kernel[i, j] = Math.Exp(-(x * x + y * y) / (2 * sigma * sigma));
+                    sum += kernel[i, j];
+                }
+            }
+
+            // Normalize the kernel matrix
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    kernel[i, j] /= sum;
+                }
+            }
+
+            return kernel;
         }
 
 

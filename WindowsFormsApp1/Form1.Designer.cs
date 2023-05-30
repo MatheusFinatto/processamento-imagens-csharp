@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnSub = new System.Windows.Forms.Button();
             this.btnMult = new System.Windows.Forms.Button();
@@ -66,12 +66,13 @@
             this.btnRealceMediana = new System.Windows.Forms.Button();
             this.txOrdem = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.SDBI = new System.Windows.Forms.Button();
             this.negativo = new System.Windows.Forms.Button();
             this.histDefault = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.histNormalizado = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.equalizarHistograma = new System.Windows.Forms.Button();
-            this.btnToDouble = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.txGaussiano = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -338,6 +339,7 @@
             this.btnRealceSuavConservativa.TabIndex = 30;
             this.btnRealceSuavConservativa.Text = "SUAV. CONSERVATIVA";
             this.btnRealceSuavConservativa.UseVisualStyleBackColor = true;
+            this.btnRealceSuavConservativa.Click += new System.EventHandler(this.btnRealceSuavConservativa_Click);
             // 
             // btnRealceOrdem
             // 
@@ -369,60 +371,52 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(426, 289);
+            this.label2.Location = new System.Drawing.Point(697, 289);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(52, 13);
             this.label2.TabIndex = 32;
             this.label2.Text = "Melhorias";
             // 
-            // SDBI
-            // 
-            this.SDBI.Location = new System.Drawing.Point(484, 284);
-            this.SDBI.Name = "SDBI";
-            this.SDBI.Size = new System.Drawing.Size(212, 23);
-            this.SDBI.TabIndex = 33;
-            this.SDBI.Text = "Standart Deviation Based Image Stretching";
-            this.SDBI.UseVisualStyleBackColor = true;
-            // 
             // negativo
             // 
-            this.negativo.Location = new System.Drawing.Point(553, 315);
+            this.negativo.Location = new System.Drawing.Point(755, 284);
             this.negativo.Name = "negativo";
             this.negativo.Size = new System.Drawing.Size(75, 23);
             this.negativo.TabIndex = 34;
             this.negativo.Text = "Negativo";
             this.negativo.UseVisualStyleBackColor = true;
+            this.negativo.Click += new System.EventHandler(this.negativo_Click);
             // 
             // histDefault
             // 
-            chartArea3.Name = "ChartArea1";
-            this.histDefault.ChartAreas.Add(chartArea3);
-            legend3.Name = "Legend1";
-            this.histDefault.Legends.Add(legend3);
+            chartArea1.Name = "ChartArea1";
+            this.histDefault.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.histDefault.Legends.Add(legend1);
             this.histDefault.Location = new System.Drawing.Point(34, 405);
             this.histDefault.Name = "histDefault";
             this.histDefault.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.SemiTransparent;
-            series3.ChartArea = "ChartArea1";
-            series3.Legend = "Legend1";
-            series3.Name = "Series1";
-            this.histDefault.Series.Add(series3);
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.histDefault.Series.Add(series1);
             this.histDefault.Size = new System.Drawing.Size(403, 196);
             this.histDefault.TabIndex = 35;
             this.histDefault.Text = "chart1";
             // 
             // histNormalizado
             // 
-            chartArea4.Name = "ChartArea1";
-            this.histNormalizado.ChartAreas.Add(chartArea4);
-            legend4.Name = "Legend1";
-            this.histNormalizado.Legends.Add(legend4);
+            chartArea2.Name = "ChartArea1";
+            this.histNormalizado.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            this.histNormalizado.Legends.Add(legend2);
             this.histNormalizado.Location = new System.Drawing.Point(509, 405);
             this.histNormalizado.Name = "histNormalizado";
             this.histNormalizado.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.SemiTransparent;
-            series4.ChartArea = "ChartArea1";
-            series4.Legend = "Legend1";
-            series4.Name = "Series1";
-            this.histNormalizado.Series.Add(series4);
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.histNormalizado.Series.Add(series2);
             this.histNormalizado.Size = new System.Drawing.Size(403, 196);
             this.histNormalizado.TabIndex = 36;
             this.histNormalizado.Tag = "";
@@ -438,27 +432,44 @@
             this.equalizarHistograma.UseVisualStyleBackColor = true;
             this.equalizarHistograma.Click += new System.EventHandler(this.equalizarHistograma_Click);
             // 
-            // btnToDouble
+            // button1
             // 
-            this.btnToDouble.Location = new System.Drawing.Point(34, 342);
-            this.btnToDouble.Name = "btnToDouble";
-            this.btnToDouble.Size = new System.Drawing.Size(75, 23);
-            this.btnToDouble.TabIndex = 38;
-            this.btnToDouble.Text = "ToDouble";
-            this.btnToDouble.UseVisualStyleBackColor = true;
-            this.btnToDouble.Click += new System.EventHandler(this.btnToDouble_Click);
+            this.button1.Location = new System.Drawing.Point(755, 358);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 41);
+            this.button1.TabIndex = 38;
+            this.button1.Text = "Gaussiano";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // txGaussiano
+            // 
+            this.txGaussiano.Location = new System.Drawing.Point(836, 358);
+            this.txGaussiano.Name = "txGaussiano";
+            this.txGaussiano.Size = new System.Drawing.Size(54, 20);
+            this.txGaussiano.TabIndex = 39;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(807, 342);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(114, 13);
+            this.label1.TabIndex = 40;
+            this.label1.Text = "Sigma (Desvio padrão)";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(945, 613);
-            this.Controls.Add(this.btnToDouble);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.txGaussiano);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.equalizarHistograma);
             this.Controls.Add(this.histNormalizado);
             this.Controls.Add(this.histDefault);
             this.Controls.Add(this.negativo);
-            this.Controls.Add(this.SDBI);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txOrdem);
             this.Controls.Add(this.btnRealceSuavConservativa);
@@ -537,12 +548,13 @@
         private System.Windows.Forms.Button btnRealceMediana;
         private System.Windows.Forms.TextBox txOrdem;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button SDBI;
         private System.Windows.Forms.Button negativo;
         private System.Windows.Forms.DataVisualization.Charting.Chart histDefault;
         private System.Windows.Forms.DataVisualization.Charting.Chart histNormalizado;
         private System.Windows.Forms.Button equalizarHistograma;
-        private System.Windows.Forms.Button btnToDouble;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox txGaussiano;
+        private System.Windows.Forms.Label label1;
     }
 }
 
