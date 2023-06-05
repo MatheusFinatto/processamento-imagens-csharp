@@ -71,7 +71,7 @@
             this.histNormalizado = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.equalizarHistograma = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.txGaussiano = new System.Windows.Forms.TextBox();
+            this.txSigma = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -442,12 +442,12 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // txGaussiano
+            // txSigma
             // 
-            this.txGaussiano.Location = new System.Drawing.Point(836, 358);
-            this.txGaussiano.Name = "txGaussiano";
-            this.txGaussiano.Size = new System.Drawing.Size(54, 20);
-            this.txGaussiano.TabIndex = 39;
+            this.txSigma.Location = new System.Drawing.Point(836, 358);
+            this.txSigma.Name = "txSigma";
+            this.txSigma.Size = new System.Drawing.Size(54, 20);
+            this.txSigma.TabIndex = 39;
             // 
             // label1
             // 
@@ -464,7 +464,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(945, 613);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.txGaussiano);
+            this.Controls.Add(this.txSigma);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.equalizarHistograma);
             this.Controls.Add(this.histNormalizado);
@@ -553,7 +553,7 @@
         private System.Windows.Forms.DataVisualization.Charting.Chart histNormalizado;
         private System.Windows.Forms.Button equalizarHistograma;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox txGaussiano;
+        private System.Windows.Forms.TextBox txSigma;
         private System.Windows.Forms.Label label1;
     }
 }

@@ -1631,9 +1631,10 @@ namespace WindowsFormsApp1
             pictureBox3.Image = image3;
         }
 
+
+
         private void button1_Click(object sender, EventArgs e)
         {
-
 
             Bitmap image1 = (Bitmap)pictureBox1.Image;
             if (image1 == null)
@@ -1642,73 +1643,73 @@ namespace WindowsFormsApp1
                 return;
             }
 
-            // Verifica se a imagem é RGB
-            if (image1.PixelFormat != PixelFormat.Format8bppIndexed)
-            {
-                MessageBox.Show("Imagens RGB não são suportadas.");
-                return;
-            }
-
-            double sigma = 1.0; // Valor do desvio padrão para o filtro gaussiano
-            int size = 5; // Tamanho do kernel gaussiano
-            double[,] kernel = CreateGaussianKernel(size, sigma);
-
             Bitmap image3 = new Bitmap(image1.Width, image1.Height);
 
-            int width = image1.Width;
-            int height = image1.Height;
-
-            for (int i = size / 2; i < width - size / 2; i++)
+            if (image1.PixelFormat == PixelFormat.Format8bppIndexed)
             {
-                for (int j = size / 2; j < height - size / 2; j++)
+                double sigma;
+                if (!double.TryParse(txSigma.Text, out sigma))
                 {
-                    // Calcular a convolução com o kernel gaussiano
-                    double sum = 0;
-                    for (int k = -size / 2; k <= size / 2; k++)
-                    {
-                        for (int l = -size / 2; l <= size / 2; l++)
-                        {
-                            Color pixel = image1.GetPixel(i + k, j + l);
-                            double gray = (pixel.R + pixel.G + pixel.B) / 3.0;
-                            sum += kernel[k + size / 2, l + size / 2] * gray;
-                        }
-                    }
-
-                    byte filteredGray = (byte)Math.Min(Math.Max(sum, 0), 255);
-
-                    Color filteredPixel = Color.FromArgb(filteredGray, filteredGray, filteredGray);
-                    image3.SetPixel(i, j, filteredPixel);
+                    MessageBox.Show("Digite um valor válido para sigma.");
+                    return;
                 }
+
+                int size = 5;
+                int radius = size / 2;
+                double[,] kernel = GenerateGaussianKernel(size, sigma);
+
+                for (int i = radius; i < image1.Width - radius; i++)
+                {
+                    for (int j = radius; j < image1.Height - radius; j++)
+                    {
+                        double sum = 0.0;
+
+                        for (int k = 0; k < size; k++)
+                        {
+                            for (int l = 0; l < size; l++)
+                            {
+                                byte pixelValue = vImg1Gray[i + k - radius, j + l - radius];
+                                sum += pixelValue * kernel[k, l];
+                            }
+                        }
+
+                        byte newValue = (byte)Math.Round(sum);
+                        Color p2 = Color.FromArgb(newValue, newValue, newValue);
+                        image3.SetPixel(i, j, p2);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Apenas imagens cinza suportadas para este filtro!");
             }
 
             pictureBox3.Image = image3;
         }
 
-
-        static double[,] CreateGaussianKernel(int size, double sigma)
+        private double[,] GenerateGaussianKernel(int size, double sigma)
         {
+            int radius = size / 2;
             double[,] kernel = new double[size, size];
-            double sum = 0.0;
+            double kernelSum = 0.0;
 
-            // Calculate the values for the kernel matrix
-            for (int i = 0; i < size; i++)
+            for (int i = -radius; i <= radius; i++)
             {
-                for (int j = 0; j < size; j++)
+                for (int j = -radius; j <= radius; j++)
                 {
-                    int x = i - size / 2;
-                    int y = j - size / 2;
-
-                    kernel[i, j] = Math.Exp(-(x * x + y * y) / (2 * sigma * sigma));
-                    sum += kernel[i, j];
+                    double distance = Math.Sqrt(i * i + j * j);
+                    double weight = Math.Exp(-(distance * distance) / (2 * sigma * sigma));
+                    kernel[i + radius, j + radius] = weight;
+                    kernelSum += weight;
                 }
             }
 
-            // Normalize the kernel matrix
+            // Normalize the kernel
             for (int i = 0; i < size; i++)
             {
                 for (int j = 0; j < size; j++)
                 {
-                    kernel[i, j] /= sum;
+                    kernel[i, j] /= kernelSum;
                 }
             }
 
@@ -1718,12 +1719,9 @@ namespace WindowsFormsApp1
 
 
 
+
+
+
+
     }
-
-
-
-
-
-
-
 }
